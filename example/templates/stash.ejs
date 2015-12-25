@@ -1,0 +1,8 @@
+<% changesets.values.reverse().forEach(function (value) { %>[info][title]プッシュのお知らせ♪[/title]<%= value.toCommit.message %>
+[hr]変更のあったファイル：<% if (value.changes.size) { %>
+<% value.changes.values.forEach(function (file) { %>【<%= file.type %>】 <%= file.path.toString %>
+<% }) %><% } else { %>　なし
+<% } %>[hr]リポジトリ：<%= repository.name %>
+コミット　：https://xxx.xx.xx.xxx/stash<%= value.link.url %>
+コミッター：<%= value.toCommit.author.name %>
+[/info]<% }) %>

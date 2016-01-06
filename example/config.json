@@ -5,6 +5,11 @@
             "hostname": "github.com",
             "token": "YOUR_TOKEN",
             "route": "/github/hooks/:roomid"
+        },
+        "stash": {
+            "hostname": "floating-everglades-xxxx.herokuapp.com",
+            "token": "YOUR_TOKEN",
+            "route": "/stash/hooks/:roomid"
         }
     }
 }

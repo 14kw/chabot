@@ -5,7 +5,7 @@ module.exports = function (chabot) {
     // ChatWork API の endpoint をセット
     var endpoint = '/rooms/' + chabot.roomid + '/messages';
     // templats/ 内のメッセージテンプレートを読み込む
-    var template = chabot.readTemplate('github.ejs');
+    var template = chabot.readTemplate('stash.ejs');
     // WebHook で受けたデータでメッセージテンプレートを描画
     var message_body = chabot.render(template, payload);
 

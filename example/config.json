@@ -10,6 +10,11 @@
             "hostname": "floating-everglades-xxxx.herokuapp.com",
             "token": "YOUR_TOKEN",
             "route": "/stash/hooks/:roomid"
+        },
+        "jira": {
+            "hostname": "floating-everglades-xxxx.herokuapp.com",
+            "token": "YOUR_TOKEN",
+            "route": "/jira/hooks/:roomid"
         }
     }
 }

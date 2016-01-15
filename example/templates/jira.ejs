@@ -1,0 +1,10 @@
+<% if (webhookEvent == 'jira:issue_updated') { %>
+[info][title]【更新】<%= issue.key %> <%= issue.fields.summary %>[/title]https://xxx.xx.xx.xxx/jira/browse/<%= issue.key %>?focusedCommentId=<%= comment.id %>
+@<%= user.displayName %> comment:
+[code]<%= comment.body %>[/code]
+[/info]<% } else if (webhookEvent == 'jira:issue_created') { %>
+[info][title]【新規】<%= issue.key %> <%= issue.fields.summary %>[/title]https://xxx.xx.xx.xxx/jira/browse/<%= issue.key %>
+報告者：@<%= user.displayName %>
+担当者：@<%= issue.fields.assignee.displayName %>
+[code]<%= issue.fields.description %>[/code]
+[/info]<% } %>

@@ -30,6 +30,11 @@
             "hostname": "xxxx.herokuapp.com",
             "token": "YOUR_TOKEN",
             "route": "/svn/hooks/:roomid"
+        },
+        "debug": {
+            "hostname": "xxxx.herokuapp.com",
+            "token": "YOUR_TOKEN",
+            "route": "/debug/hooks/:roomid"
         }
     }
 }

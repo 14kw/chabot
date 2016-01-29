@@ -1,0 +1,10 @@
+<% if (typeof req_type !== "undefined" && req_type == "PR") { %><% attachments.forEach(function (att) { %>
+[info][title]【PR - <%= att.pr_type %>】<%= att.title %>[/title]( <%= att.title_link %> )
+<%= att.text %> by <%= att.author_name %><% att.fields.forEach(function (fld) { %>
+<%= fld.title %>:[code]<%= fld.value %>[/code]<% }) %>
+[/info]<% }) %><% } else if (req_type == "Push") { %><% attachments.forEach(function (att) { %>
+[info][title]【Push】<%= att.title %>[/title]( <%= att.title_link %> )
+<%= text.replace(/`(.*?)`/g, "$&") %><% att.fields.forEach(function (fld) { %>[code]
+<%= fld.value %>
+[/code]<% }) %>
+[/info]<% }) %><% } %>

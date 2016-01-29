@@ -7,14 +7,29 @@
             "route": "/github/hooks/:roomid"
         },
         "stash": {
-            "hostname": "floating-everglades-xxxx.herokuapp.com",
+            "hostname": "xxxx.herokuapp.com",
             "token": "YOUR_TOKEN",
             "route": "/stash/hooks/:roomid"
         },
         "jira": {
-            "hostname": "floating-everglades-xxxx.herokuapp.com",
+            "hostname": "xxxx.herokuapp.com",
             "token": "YOUR_TOKEN",
             "route": "/jira/hooks/:roomid"
+        },
+        "stash-pr": {
+            "hostname": "xxxx.herokuapp.com",
+            "token": "YOUR_TOKEN",
+            "route": "/stash-pr/hooks/:roomid"
+        },
+        "confluence": {
+            "hostname": "xxxx.herokuapp.com",
+            "token": "YOUR_TOKEN",
+            "route": "/confluence/hooks/:roomid"
+        },
+        "svn": {
+            "hostname": "xxxx.herokuapp.com",
+            "token": "YOUR_TOKEN",
+            "route": "/svn/hooks/:roomid"
         }
     }
 }

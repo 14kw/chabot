@@ -1,10 +1,83 @@
-<% if (webhookEvent == 'jira:issue_updated') { %>
-[info][title]【更新】<%= issue.key %> <%= issue.fields.summary %>[/title]https://xxx.xx.xx.xxx/jira/browse/<%= issue.key %>?focusedCommentId=<%= comment.id %>
-@<%= user.displayName %> comment:
-[code]<%= comment.body %>[/code]
-[/info]<% } else if (webhookEvent == 'jira:issue_created') { %>
-[info][title]【新規】<%= issue.key %> <%= issue.fields.summary %>[/title]https://xxx.xx.xx.xxx/jira/browse/<%= issue.key %>
-報告者：@<%= user.displayName %>
-担当者：@<%= issue.fields.assignee.displayName %>
-[code]<%= issue.fields.description %>[/code]
-[/info]<% } %>
+<%
+var title = '';
+var url = '';
+var related = '';
+var description = '';
+
+switch( webhookEvent ) {
+  case 'jira:issue_created':
+    title = '【' + webhookEvent + '】' + issue.key + ' ' + issue.fields.summary;
+    url = 'https://yourdomain.com/jira/browse/' + issue.key;
+    reporter = user.displayName
+    if (issue.fields.assignee != null) {
+      owner = issue.fields.assignee.displayName;
+    } else {
+      owner = '未指定';
+    }
+    related = '報告者：@' + user.displayName + '\n担当者：@' + owner;
+    description = issue.fields.description;
+    break;
+  case 'jira:issue_updated':
+    if ( typeof(changelog) == "undefined" ) {
+      title = '【' + webhookEvent + '】' + issue.key + ' ' + issue.fields.summary;
+      url = 'https://yourdomain.com/jira/browse/' + issue.key + '?focusedCommentId=' + comment.id;
+      related = 'Commented by @' + user.displayName;
+      description = comment.body;
+    } else {
+      title = '【' + webhookEvent + '】' + issue.key + ' ' + issue.fields.summary;
+      url = 'https://yourdomain.com/jira/browse/' + issue.key;
+      related = 'Updated by @' + user.displayName;
+      changelog.items.forEach(function (item) {
+        description += item.field + ': ';
+        description += item.fromString + ' → ' + item.toString + '\n';
+      });
+    }
+    break;
+  case 'comment_created':
+    title = '【' + webhookEvent + '】Commented by @' + comment.updateAuthor.displayName;
+    var self_list = comment.self.split('/');
+    url = 'https://yourdomain.com/jira/issues/?jql=id%3D' + self_list[8];
+    description = comment.body;
+    break;
+  case 'board_created':
+    if ( board.type == 'scrum' ) {
+      title = '【' + webhookEvent + '】' + board.name + ' が作成されました';
+      url = 'https://yourdomain.com/jira/secure/RapidBoard.jspa?rapidView=' + board.id + '&view=planning.nodetail'
+    } else if ( board.type == 'kanban' ) {
+      title = '【' + webhookEvent + '】' + board.name + ' が作成されました';
+      url = 'https://yourdomain.com/jira/secure/RapidBoard.jspa?rapidView=' + board.id;
+    }
+    break;
+  case 'board_configuration_changed':
+    title = '【' + webhookEvent + '】' + board.name + ' の設定がされました';
+    description = JSON.stringify(board);
+    break;
+  case 'sprint_created':
+    title = '【' + webhookEvent + '】' + sprint.name + ' が作成されました';
+    url = 'https://yourdomain.com/jira/secure/RapidBoard.jspa?rapidView=' + sprint.originBoardId + '&view=planning';
+    break;
+  case 'sprint_start':
+    title = '【' + webhookEvent + '】' + sprint.name + ' が開始されました';
+    url = 'https://yourdomain.com/jira/secure/RapidBoard.jspa?rapidView=' + sprint.originBoardId;
+    break;
+  case 'sprint_updated':
+    title = '【' + webhookEvent + '】' + sprint.name + ' が更新されました';
+    url = 'https://yourdomain.com/jira/secure/RapidBoard.jspa?rapidView=' + sprint.originBoardId;
+    description = 'name: ' + sprint.name + '\nstartDate: ' + sprint.startDate.substr(0,10) + '\nendDate: ' + sprint.endDate.substr(0,10) + '\nstate: ' + sprint.state;
+    break;
+  case 'sprint_closed':
+    title = '【' + webhookEvent + '】' + sprint.name + ' が完了しました';
+    url = 'https://yourdomain.com/jira/secure/RapidBoard.jspa?rapidView=' + sprint.originBoardId + '&view=reporting&chart=sprintRetrospective&sprint=' + sprint.id;
+    break;
+  case 'project_created':
+    title = '【' + webhookEvent + '】' + project.name + ' が作成されました';
+    description = 'key: ' + project.key + '\nname: ' + project.name + '\nprojectLead: ' + project.projectLead.displayName;
+    break;
+  default:
+    title = 'Error';
+    description = 'Chabot can not be notified of the ' + webhookEvent +  ' event.';
+    break;
+}
+%>
+[info][title]<%= title %>[/title]<%= url %>
+<% if(related != ''){ %><%= related %><% } %><% if(description != ''){ %>[code]<%= description %>[/code]<% } %>[/info]

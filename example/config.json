@@ -31,6 +31,16 @@
             "token": "YOUR_TOKEN",
             "route": "/svn/hooks/:roomid"
         },
+        "zabbix": {
+            "hostname": "xxxx.herokuapp.com",
+            "token": "YOUR_TOKEN",
+            "route": "/zabbix/hooks/:roomid"
+        },
+        "zabbix-plus": {
+            "hostname": "xxxx.herokuapp.com",
+            "token": "YOUR_TOKEN",
+            "route": "/zabbix-plus/hooks/:roomid"
+        },
         "debug": {
             "hostname": "xxxx.herokuapp.com",
             "token": "YOUR_TOKEN",

@@ -12,7 +12,7 @@ module.exports = function (chabot) {
     // 検索ワードはTRIGGER.NAMEにしていますが適宜変更してください
     if (payload.TRIGGER.NAME) {
         getTroubleshooting(payload.TRIGGER.NAME, function(search_data){
-            if (search_data.size != 0) {
+            if (search_data.size !== 0) {
                var template2 = chabot.readTemplate('zabbix-plus.ejs');
                message_body += chabot.render(template2, search_data) + '[/info]';
             } else {

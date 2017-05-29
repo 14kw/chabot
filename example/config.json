@@ -21,6 +21,11 @@
             "token": "YOUR_TOKEN",
             "route": "/stash-pr/hooks/:roomid"
         },
+        "bitbucket": {
+            "hostname": "xxxx.herokuapp.com",
+            "token": "YOUR_TOKEN",
+            "route": "/bitbucket/hooks/:roomid"
+        },
         "confluence": {
             "hostname": "xxxx.herokuapp.com",
             "token": "YOUR_TOKEN",
